@@ -45,60 +45,66 @@
             </p>
         </div>
         <script type="application/javascript">
-            let primerOperandoInput = document.getElementById("primerOperando");
-            let segundoOperandoInput = document.getElementById("segundoOperando");
-            let resultadoInput = document.getElementById("resultado");
-            let primerOperandoErrorInput = document.getElementById("primerOperandoError");
-            let segundoOperandoErrorInput = document.getElementById("segundoOperandoError");
-            let resultadoErrorInput = document.getElementById("resultadoError");
+            class Calculadora {
+                primerOperandoInput = document.getElementById("primerOperando");
+                segundoOperandoInput = document.getElementById("segundoOperando");
+                resultadoInput = document.getElementById("resultado");
+                primerOperandoErrorInput = document.getElementById("primerOperandoError");
+                segundoOperandoErrorInput = document.getElementById("segundoOperandoError");
+                resultadoErrorInput = document.getElementById("resultadoError");
 
-            document.getElementById("btnSuma").addEventListener("click", () => {operar("+")});
-            document.getElementById("btnResta").addEventListener("click", () => {operar("-")});
-            document.getElementById("btnMul").addEventListener("click", () => {operar("*")});
-            document.getElementById("btnDiv").addEventListener("click", () => {operar("/")});
-
-            function operandoEsValido(operando) {
-                return /^-?\d+(\.\d+)?$/m.exec(operando) !== null;
-            }
-
-            function operar(operador) {
-                let primerOperando = primerOperandoInput.value;
-                let segundoOperando = segundoOperandoInput.value;
-                let primerOperandoError = "";
-                let segundoOperandoError = "";
-                let resultadoError = "";
-
-                // Comprobar primer operando
-                if (primerOperando === "") {
-                    primerOperandoError = "Debes ingresar un operando.";
-                } else if (!operandoEsValido(primerOperando)) {
-                    primerOperandoError = "El operando no es válido.";
+                constructor() {
+                    document.getElementById("btnSuma").addEventListener("click", () => {this.operar("+")});
+                    document.getElementById("btnResta").addEventListener("click", () => {this.operar("-")});
+                    document.getElementById("btnMul").addEventListener("click", () => {this.operar("*")});
+                    document.getElementById("btnDiv").addEventListener("click", () => {this.operar("/")});
                 }
 
-                // Comprobar segundo operando
-                if (segundoOperando === "") {
-                    segundoOperandoError = "Debes ingresar un operando.";
-                } else if (!operandoEsValido(segundoOperando)) {
-                    segundoOperandoError = "El operando no es válido.";
+                operandoEsValido(operando) {
+                    return /^-?\d+(\.\d+)?$/m.exec(operando) !== null;
                 }
 
-                // Si no hubo errores en los operandos...
-                if (primerOperandoError === "" && segundoOperandoError === "") {
-                    resultadoOperacion = eval(`${primerOperandoInput.value} ${operador} ${segundoOperandoInput.value}`);
+                operar(operador) {
+                    let primerOperando = this.primerOperandoInput.value;
+                    let segundoOperando = this.segundoOperandoInput.value;
+                    let primerOperandoError = "";
+                    let segundoOperandoError = "";
+                    let resultadoError = "";
 
-                    if (resultadoOperacion !== undefined) {
-                        resultadoInput.value = resultadoOperacion;
-                    } else {
-                        resultadoInput.value = "";
-                        resultadoError = "No se pudo completar la operación.";
+                    // Comprobar primer operando
+                    if (primerOperando === "") {
+                        primerOperandoError = "Debes ingresar un operando.";
+                    } else if (!this.operandoEsValido(primerOperando)) {
+                        primerOperandoError = "El operando no es válido.";
                     }
-                }
 
-                // Refrescar mensajes de error
-                primerOperandoErrorInput.innerHTML = primerOperandoError;
-                segundoOperandoErrorInput.innerHTML = segundoOperandoError;
-                resultadoErrorInput.innerHTML = resultadoError;
+                    // Comprobar segundo operando
+                    if (segundoOperando === "") {
+                        segundoOperandoError = "Debes ingresar un operando.";
+                    } else if (!this.operandoEsValido(segundoOperando)) {
+                        segundoOperandoError = "El operando no es válido.";
+                    }
+
+                    // Si no hubo errores en los operandos...
+                    if (primerOperandoError === "" && segundoOperandoError === "") {
+                        let resultadoOperacion = eval(`${primerOperando} ${operador} ${segundoOperando}`);
+
+                        if (resultadoOperacion !== undefined) {
+                            this.resultadoInput.value = resultadoOperacion;
+                        } else {
+                            this.resultadoInput.value = "";
+                            resultadoError = "No se pudo completar la operación.";
+                        }
+                    }
+
+                    // Refrescar mensajes de error
+                    this.primerOperandoErrorInput.innerHTML = primerOperandoError;
+                    this.segundoOperandoErrorInput.innerHTML = segundoOperandoError;
+                    this.resultadoErrorInput.innerHTML = resultadoError;
+                }
             }
+
+            new Calculadora();
         </script>
     </body>
 </html>
