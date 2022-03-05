@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Calculadora</title>
+        <style>
+            .error {
+                color: darkred;
+            }
+        </style>
     </head>
     <body>
         <!--
@@ -9,10 +16,89 @@
 
             Desarrollador una calculadora que tenga:
 
-            2 campos inputs para los operadnos
+            2 campos inputs para los operandos
             4 botones de operadores básicos (suma, resta, multiplicación, división)
             Al realizar la cuenta se deberá actualizar el campo resultado
         -->
+        <div>
+            <h1>Calculadora</h1>
+            <p>
+                <label for="primerOperando">Primer operando:</label>
+                <input type="number" name="primerOperando" id="primerOperando">
+                <span id="primerOperandoError" class="error"></span>
+            </p>
+            <p>
+                <label for="segundoOperando">Segundo operando:</label>
+                <input type="number" name="segundoOperando" id="segundoOperando">
+                <span id="segundoOperandoError" class="error"></span>
+            </p>
+            <p>
+                <button id="btnSuma">Sumar</button>
+                <button id="btnResta">Restar</button>
+                <button id="btnMul">Multiplicar</button>
+                <button id="btnDiv">Dividir</button>
+            </p>
+            <p>
+                <label for="resultado">Resultado:</label>
+                <input type="number" name="resultado" id="resultado" disabled>
+                <span id="resultadoError" class="error"></span>
+            </p>
+        </div>
+        <script type="application/javascript">
+            let primerOperandoInput = document.getElementById("primerOperando");
+            let segundoOperandoInput = document.getElementById("segundoOperando");
+            let resultadoInput = document.getElementById("resultado");
+            let primerOperandoErrorInput = document.getElementById("primerOperandoError");
+            let segundoOperandoErrorInput = document.getElementById("segundoOperandoError");
+            let resultadoErrorInput = document.getElementById("resultadoError");
 
+            document.getElementById("btnSuma").addEventListener("click", () => {operar("+")});
+            document.getElementById("btnResta").addEventListener("click", () => {operar("-")});
+            document.getElementById("btnMul").addEventListener("click", () => {operar("*")});
+            document.getElementById("btnDiv").addEventListener("click", () => {operar("/")});
+
+            function operandoEsValido(operando) {
+                return /^-?\d+(\.\d+)?$/m.exec(operando) !== null;
+            }
+
+            function operar(operador) {
+                let primerOperando = primerOperandoInput.value;
+                let segundoOperando = segundoOperandoInput.value;
+                let primerOperandoError = "";
+                let segundoOperandoError = "";
+                let resultadoError = "";
+
+                // Comprobar primer operando
+                if (primerOperando === "") {
+                    primerOperandoError = "Debes ingresar un operando.";
+                } else if (!operandoEsValido(primerOperando)) {
+                    primerOperandoError = "El operando no es válido.";
+                }
+
+                // Comprobar segundo operando
+                if (segundoOperando === "") {
+                    segundoOperandoError = "Debes ingresar un operando.";
+                } else if (!operandoEsValido(segundoOperando)) {
+                    segundoOperandoError = "El operando no es válido.";
+                }
+
+                // Si no hubo errores en los operandos...
+                if (primerOperandoError === "" && segundoOperandoError === "") {
+                    resultadoOperacion = eval(`${primerOperandoInput.value} ${operador} ${segundoOperandoInput.value}`);
+
+                    if (resultadoOperacion !== undefined) {
+                        resultadoInput.value = resultadoOperacion;
+                    } else {
+                        resultadoInput.value = "";
+                        resultadoError = "No se pudo completar la operación.";
+                    }
+                }
+
+                // Refrescar mensajes de error
+                primerOperandoErrorInput.innerHTML = primerOperandoError;
+                segundoOperandoErrorInput.innerHTML = segundoOperandoError;
+                resultadoErrorInput.innerHTML = resultadoError;
+            }
+        </script>
     </body>
 </html>
