@@ -14,7 +14,7 @@
         <!--
             Consigna:
 
-            Desarrollador una calculadora que tenga:
+            Desarrollar una calculadora que tenga:
 
             2 campos inputs para los operandos
             4 botones de operadores básicos (suma, resta, multiplicación, división)
@@ -40,7 +40,7 @@
             </p>
             <p>
                 <label for="resultado">Resultado:</label>
-                <input type="number" name="resultado" id="resultado" disabled>
+                <input name="resultado" id="resultado" disabled>
                 <span id="resultadoError" class="error"></span>
             </p>
         </div>
@@ -70,6 +70,7 @@
                     let primerOperandoError = "";
                     let segundoOperandoError = "";
                     let resultadoError = "";
+                    let resultadoOperacion = "";
 
                     // Comprobar primer operando
                     if (primerOperando === "") {
@@ -83,16 +84,16 @@
                         segundoOperandoError = "Debes ingresar un operando.";
                     } else if (!this.operandoEsValido(segundoOperando)) {
                         segundoOperandoError = "El operando no es válido.";
+                    } else if (segundoOperando == "0" && operador == "/") {
+                        segundoOperandoError = "No puedes dividir por cero.";
                     }
 
                     // Si no hubo errores en los operandos...
                     if (primerOperandoError === "" && segundoOperandoError === "") {
-                        let resultadoOperacion = eval(`${primerOperando} ${operador} ${segundoOperando}`);
+                        resultadoOperacion = eval(`${primerOperando} ${operador} ${segundoOperando}`);
 
-                        if (resultadoOperacion !== undefined) {
-                            this.resultadoInput.value = resultadoOperacion;
-                        } else {
-                            this.resultadoInput.value = "";
+                        if (typeof(resultadoOperacion) !== "number" || resultadoOperacion == NaN) {
+                            resultadoOperacion = "";
                             resultadoError = "No se pudo completar la operación.";
                         }
                     }
@@ -101,6 +102,9 @@
                     this.primerOperandoErrorInput.innerHTML = primerOperandoError;
                     this.segundoOperandoErrorInput.innerHTML = segundoOperandoError;
                     this.resultadoErrorInput.innerHTML = resultadoError;
+
+                    // Refrescar resultado de la operación
+                    this.resultadoInput.value = resultadoOperacion;
                 }
             }
 
