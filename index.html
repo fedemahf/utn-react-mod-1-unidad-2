@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Calculadora</title>
         <style>
+            body {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
             .error {
                 color: darkred;
             }
@@ -20,7 +23,7 @@
             4 botones de operadores básicos (suma, resta, multiplicación, división)
             Al realizar la cuenta se deberá actualizar el campo resultado
         -->
-        <div>
+        <main>
             <h1>Calculadora</h1>
             <p>
                 <label for="primerOperando">Primer operando:</label>
@@ -43,7 +46,12 @@
                 <input name="resultado" id="resultado" disabled>
                 <span id="resultadoError" class="error"></span>
             </p>
-        </div>
+        </main>
+        <footer>
+            <p>
+                GitHub: <a href="https://github.com/fedemahf/utn-react-mod-1-unidad-2">https://github.com/fedemahf/utn-react-mod-1-unidad-2</a>
+            </p>
+        </footer>
         <script type="application/javascript">
             class Calculadora {
                 primerOperandoInput = document.getElementById("primerOperando");
